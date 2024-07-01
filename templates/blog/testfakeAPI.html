@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Fake API</title>
+</head>
+<body>
+    <h2>GET Request</h2>
+    {% if api_data.get %}
+        <pre>{{ api_data.get|json_script:"get_data" }}</pre>
+        <script>
+            const getData = JSON.parse(document.getElementById('get_data').textContent);
+            console.log(getData);
+        </script>
+    {% else %}
+        <p>{{ api_data.get_error }}</p>
+    {% endif %}
+
+    <h2>POST Request</h2>
+    {% if api_data.post %}
+        <pre>{{ api_data.post|json_script:"post_data" }}</pre>
+        <script>
+            const postData = JSON.parse(document.getElementById('post_data').textContent);
+            console.log(postData);
+        </script>
+    {% else %}
+        <p>{{ api_data.post_error }}</p>
+    {% endif %}
+
+    <h2>PUT Request</h2>
+    {% if api_data.put %}
+        <pre>{{ api_data.put|json_script:"put_data" }}</pre>
+        <script>
+            const putData = JSON.parse(document.getElementById('put_data').textContent);
+            console.log(putData);
+        </script>
+    {% else %}
+        <p>{{ api_data.put_error }}</p>
+    {% endif %}
+
+    <h2>DELETE Request</h2>
+    {% if api_data.delete %}
+        <p>{{ api_data.delete.status }}</p>
+    {% else %}
+        <p>{{ api_data.delete_error }}</p>
+    {% endif %}
+</body>
+</html>

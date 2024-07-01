@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <article>
+        <h4>REST API code:</h4>
+        <pre>
+def v_testfakeAPI(request):
+    base_url = 'https://jsonplaceholder.typicode.com/posts'
+    api_data = {}
+
+    # Example token, replace with your actual token
+    token = 'Bearer YOUR_ACCESS_TOKEN_HERE'
+
+    headers = {
+        'Authorization': token,
+        'Content-Type': 'application/json'  # Adjust content type as needed
+    }
+
+    # GET request
+    try:
+        response = requests.get(f'{base_url}/1', headers=headers)
+        response.raise_for_status()
+        api_data['get'] = response.json()
+        print('GET:', api_data['get'])  # Debugging statement
+    except requests.exceptions.RequestException as e:
+        api_data['get_error'] = f'GET request failed: {e}'
+        print(api_data['get_error'])  # Debugging statement
+
+    # POST request
+    post_data = {'title': 'foo', 'body': 'bar', 'userId': 1}
+    try:
+        response = requests.post(base_url, json=post_data, headers=headers)
+        response.raise_for_status()
+        api_data['post'] = response.json()
+        print('POST:', api_data['post'])  # Debugging statement
+    except requests.exceptions.RequestException as e:
+        api_data['post_error'] = f'POST request failed: {e}'
+        print(api_data['post_error'])  # Debugging statement
+
+    # PUT request
+    put_data = {'id': 1, 'title': 'foo', 'body': 'bar', 'userId': 1}
+    try:
+        response = requests.put(f'{base_url}/1', json=put_data, headers=headers)
+        response.raise_for_status()
+        api_data['put'] = response.json()
+        print('PUT:', api_data['put'])  # Debugging statement
+    except requests.exceptions.RequestException as e:
+        api_data['put_error'] = f'PUT request failed: {e}'
+        print(api_data['put_error'])  # Debugging statement
+
+    # DELETE request
+    try:
+        response = requests.delete(f'{base_url}/1', headers=headers)
+        response.raise_for_status()
+        api_data['delete'] = {'status': 'success'}
+        print('DELETE:', api_data['delete'])  # Debugging statement
+    except requests.exceptions.RequestException as e:
+        api_data['delete_error'] = f'DELETE request failed: {e}'
+        print(api_data['delete_error'])  # Debugging statement
+
+    return render(request, 'blog/testfakeAPI.html', {'api_data': api_data})
+
+        </pre>
+    </article>
+
+<h1> Below commented code is HTML to show API reult</h1>
+    <!-- <div>
+        <h2>GET Request</h2>
+        {% if api_data.get %}
+            <pre>{{ api_data.get|json_script:"get_data" }}</pre>
+            <script>
+                const getData = JSON.parse(document.getElementById('get_data').textContent);
+                console.log(getData);
+            </script>
+        {% else %}
+            <p>{{ api_data.get_error }}</p>
+        {% endif %}
+    
+        <h2>POST Request</h2>
+        {% if api_data.post %}
+            <pre>{{ api_data.post|json_script:"post_data" }}</pre>
+            <script>
+                const postData = JSON.parse(document.getElementById('post_data').textContent);
+                console.log(postData);
+            </script>
+        {% else %}
+            <p>{{ api_data.post_error }}</p>
+        {% endif %}
+    
+        <h2>PUT Request</h2>
+        {% if api_data.put %}
+            <pre>{{ api_data.put|json_script:"put_data" }}</pre>
+            <script>
+                const putData = JSON.parse(document.getElementById('put_data').textContent);
+                console.log(putData);
+            </script>
+        {% else %}
+            <p>{{ api_data.put_error }}</p>
+        {% endif %}
+    
+        <h2>DELETE Request</h2>
+        {% if api_data.delete %}
+            <p>{{ api_data.delete.status }}</p>
+        {% else %}
+            <p>{{ api_data.delete_error }}</p>
+        {% endif %}
+        </div>  -->
+
+</body>
+</html>
