@@ -1,0 +1,7 @@
+django = "*"
+djangorestframework = "*"
+django-crispy-forms = "*"
+crispy-bootstrap4 = "*"
+django-allauth = "*"
+
+python_version = "3.11"
