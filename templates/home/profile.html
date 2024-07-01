@@ -10,6 +10,7 @@
 </style>
     <div class="content-section">
         <div class="d-flex align-items-center">
+            <img class="account-img me-3" src='{{ user.image.url }}' alt="Profile image">
             <div>
                 <h2 class="account-heading mb-0">{{ user.name }}</h2>
                 <p class="text-secondary mb-0">{{ user.email }}</p>
@@ -20,6 +21,7 @@
             <fieldset class="form-group mt-4">
                 <legend class="border-bottom mb-4">Profile Info</legend>
                 {{ u_form|crispy }}
+                {{ p_form|crispy }}
             </fieldset>
             <div class="form-group mt-3">
                 <button class="btn btn-outline-info" type="submit">Update</button>

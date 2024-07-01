@@ -3,7 +3,7 @@ from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.models import BaseUserManager
 from django.conf import settings
-
+from PIL import Image
 
 class UserProfileManager(BaseUserManager):
     """Manager for user profiles"""
@@ -38,6 +38,7 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
     name = models.CharField(max_length=255)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+    image = models.ImageField(default='default.jpg', upload_to='profile_pics')
 
     objects = UserProfileManager()
 
@@ -55,5 +56,16 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         """Return string representation of our user"""
         return self.email
+    
+    def save(self, *args, **kwargs):
+        super(UserProfile,self).save(*args, **kwargs)
+        
+
+        img = Image.open(self.image.path)
+
+        if img.height > 300 or img.width > 300:
+            output_size = (300, 300)
+            img.thumbnail(output_size)
+            img.save(self.image.path)
 
 
